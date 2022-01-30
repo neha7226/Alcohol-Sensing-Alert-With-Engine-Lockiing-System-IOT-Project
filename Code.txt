@@ -1,0 +1,37 @@
+#include<LiquidCrystal.h>
+LiquidCrystal lcd(12,11,5,4,3,2);
+int motor_out = 13;
+int mq_sensor = 7;
+int value = 0;
+void setup()
+{
+Serial.begin(9600);
+lcd.begin(16,2);
+pinMode(motor_out, OUTPUT);
+pinMode(mq_sensor, INPUT);
+}
+void loop()
+{
+value = digitalRead(mq_sensor);
+Serial.println(value);
+if (value == 1)
+{
+Serial.println("No ALCOHOL detected...");
+lcd.clear ();
+lcd.setCursor(0,0);
+lcd.print("No alcohol detected");
+lcd.setCursor(0,1);
+lcd.print("engine on");
+digitalWrite(motor_out, LOW);
+}
+else
+{
+Serial.println("ALCOHOL detected.");
+lcd.clear ();
+lcd.setCursor(0,0);
+lcd.print("alcohol Detected");
+lcd.setCursor(0,1);
+lcd.print("Engine off");
+digitalWrite(motor_out, HIGH);
+}
+}
